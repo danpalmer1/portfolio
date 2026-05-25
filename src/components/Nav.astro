@@ -1,0 +1,52 @@
+---
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const links: { href: string; label: string }[] = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/work", label: "Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/resume", label: "Resume" },
+  { href: "/contact", label: "Contact" },
+];
+
+const isActive = (href: string) =>
+  href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-(--color-border) bg-(--color-bg)/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex h-14 max-w-6xl items-center justify-between px-6"
+    aria-label="Primary"
+  >
+    <a
+      href="/"
+      class="font-display text-sm font-semibold tracking-[-0.03em] text-(--color-text) transition-colors hover:text-(--color-accent-glow)"
+    >
+      Daniel Palmer
+    </a>
+
+    <ul class="flex items-center gap-1 text-sm">
+      {
+        links.slice(1).map(({ href, label }) => (
+          <li>
+            <a
+              href={href}
+              aria-current={isActive(href) ? "page" : undefined}
+              class:list={[
+                "rounded-md px-3 py-1.5 transition-colors",
+                isActive(href)
+                  ? "text-(--color-accent-glow)"
+                  : "text-(--color-text-muted) hover:text-(--color-text)",
+              ]}
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

@@ -1,0 +1,57 @@
+---
+title: From rules-based RPA to AI-augmented automation
+date: 2026-05-20
+summary: After three years of rules-based RPA, the shape of the work changes the moment you put a model in the loop. Notes on what actually shifts — and what doesn't.
+tags:
+  - automation
+  - ai
+  - rpa
+---
+
+Three years of RPA at Fastenal taught me that the bottleneck of
+automation is almost never the part that runs. It's the part that
+decides.
+
+A bot can fill in 200 fields a minute. It can't tell you whether the
+invoice that just came in is the same vendor as the one from last
+quarter who used a slightly different name. Or whether the email
+attached to a ticket is the actual policy document or a draft someone
+forgot to delete. Those are *judgments*, and judgments are where
+rules-based automation runs out of room.
+
+You can keep adding rules. You always can. But every rule is a
+maintenance cost, and the rate at which the world produces edge cases is
+higher than the rate at which one person can write rules.
+
+## What changes with a model in the loop
+
+Two things, and they're both quieter than I expected.
+
+**1. The unit of work moves up a level.** Instead of writing
+"if the customer name contains 'LLC', strip the suffix and re-match,"
+you write "normalize this customer name to match our canonical list."
+The implementation is shorter and the failure modes are more
+*recognizable* — a model misreading a name fails in ways a human would
+recognize, not in ways only the rule author would.
+
+**2. The cost of the long tail collapses.** The 90% case used to be
+worth automating; the 10% wasn't. With a model that handles ambiguity
+gracefully, the breakeven on the long tail drops. The bot doesn't get
+*better*; it gets *more general*.
+
+## What doesn't change
+
+A lot. Most of what made RPA work still applies — sturdy logging,
+deterministic side effects, a human-readable audit trail, the discipline
+of testing on data you didn't write. Models don't replace any of that.
+They just shrink the part of the workflow that was *only* about
+matching strings.
+
+## The frame I'm taking into AI work
+
+> Automate the workflow, not the UI. Automate the judgment, not the
+> rule.
+
+It's the same frame, scoped one level up. The tool is different. The
+goal is the same: give people back the hours that didn't need to be
+theirs.

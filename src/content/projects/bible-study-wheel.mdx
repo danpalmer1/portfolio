@@ -1,0 +1,48 @@
+---
+title: Bible Study Wheel
+summary: A public-facing study-tracking app with an earthy "Cool Woodland" aesthetic — built for real users at studywheel.app.
+tech:
+  - React
+  - TypeScript
+  - Tailwind
+  - Supabase
+links:
+  live: https://studywheel.app
+order: 2
+---
+
+## What it is
+
+A side project that escaped the side-project graveyard. **Bible Study
+Wheel** is a small app for tracking a structured Bible reading rotation —
+think habit-tracker meets reading plan. It runs at
+[studywheel.app](https://studywheel.app) and has real users.
+
+## Why I built it
+
+I wanted to ship something I would actually use myself, on a stack I
+hadn't touched at work, with a design language that didn't look like
+every other dark dashboard.
+
+The "Cool Woodland" aesthetic — mossy greens, lichen grays, warm cream
+backgrounds, Fraunces display + Inter body — came out of asking *"what
+would this look like if it felt physical, like a leather-bound journal
+that happened to live on the web?"*
+
+## What it taught me
+
+- **Tailwind v4 in production.** Different mental model than v3 — the
+  `@theme` block becomes the source of truth and most of my `tailwind.config`
+  habits had to be unlearned.
+- **Supabase row-level security is the whole ballgame.** If you get the
+  policies right, the client can talk to the database directly. If you
+  don't, you find out in a way you don't enjoy.
+- **Real users surface what you can't.** I had three bugs in the first
+  week that I'd never have found from my own usage. Two of them were
+  embarrassing.
+
+## What's next
+
+A handful of features that emerged from actual use — saved progress
+across devices, shareable wheels, a print-friendly view. Slow burn, not
+on a deadline.

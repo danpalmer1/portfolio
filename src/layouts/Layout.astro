@@ -1,0 +1,97 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Nav from "../components/Nav.astro";
+import BackgroundFX from "../components/bg/BackgroundFX.astro";
+import SEO from "../components/SEO.astro";
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  /** Path or absolute URL to the OG image for this page. Defaults to og-default.png. */
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  /** Skip the centered/padded <main> wrapper. Use when the page manages its own
+   *  horizontal width and vertical rhythm (e.g. the home hero with min-h-screen
+   *  scenes that need to start at viewport top). */
+  fullBleed?: boolean;
+}
+
+const {
+  title = "Daniel Palmer — Automation & AI",
+  description = "I help businesses automate the work that wastes their time.",
+  image,
+  type,
+  publishedTime,
+  fullBleed = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0e1a" />
+
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <ClientRouter />
+  </head>
+  <body class="text-(--color-text) font-sans antialiased">
+    <!-- Body intentionally has no background: html paints the bg (see global.css)
+         so the fixed `-z-10` <BackgroundFX/> layer sits between html and body
+         content. Setting bg on body would paint over the bgfx layer. -->
+
+    <BackgroundFX />
+
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded focus:bg-(--color-surface) focus:px-3 focus:py-2 focus:text-sm"
+    >
+      Skip to content
+    </a>
+
+    <Nav />
+
+    {
+      fullBleed ? (
+        <main id="main">
+          <slot />
+        </main>
+      ) : (
+        <main id="main" class="mx-auto max-w-6xl px-6 py-12">
+          <slot />
+        </main>
+      )
+    }
+
+    <footer class="border-t border-(--color-border) mt-24">
+      <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-(--color-text-dim) flex justify-between">
+        <span>© {new Date().getFullYear()} Daniel Palmer</span>
+        <a
+          href="mailto:xdanielpalmerx@gmail.com"
+          class="hover:text-(--color-accent-glow) transition-colors"
+        >
+          xdanielpalmerx@gmail.com
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      import "../scripts/smooth-scroll";
+    </script>
+  </body>
+</html>
