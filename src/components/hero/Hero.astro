@@ -6,7 +6,14 @@
 
 import { getCollection } from "astro:content";
 
-const phrases = ["RPA developer.", "AI analyst.", "Same goal."];
+// Scene 2: each phrase splits into an accent-colored "key" word + the rest.
+// Left-anchored layout means the eye sees a stable starting edge as content
+// swaps; the accent word carries the visual emphasis instead of length.
+const phrases: { key: string; rest: string }[] = [
+  { key: "RPA", rest: " developer." },
+  { key: "AI", rest: " analyst." },
+  { key: "Same", rest: " goal." },
+];
 
 const projects = (
   await getCollection("projects", ({ data }) => !data.draft)
@@ -59,14 +66,14 @@ const projects = (
     class="hero-scene-2 relative min-h-screen flex items-center justify-center px-6"
     data-scene="2"
   >
-    <div class="hero-scene-2__phrases relative w-full max-w-4xl text-center">
+    <div class="hero-scene-2__phrases relative w-full max-w-4xl">
       {
         phrases.map((phrase, i) => (
           <p
-            class="hero-scene-2__phrase font-display text-5xl md:text-7xl font-semibold tracking-[-0.03em]"
+            class="hero-scene-2__phrase font-display text-6xl md:text-8xl font-semibold tracking-[-0.03em] leading-[1]"
             data-phrase-index={i}
           >
-            {phrase}
+            <span class="text-(--color-accent-glow)">{phrase.key}</span><span class="text-(--color-text)">{phrase.rest}</span>
           </p>
         ))
       }
@@ -147,19 +154,26 @@ const projects = (
 </div>
 
 <style>
-  /* Scene 2: stack phrases on top of each other so we cross-fade in place.
-     First phrase visible by default; choreography fades the others in.
-     For reduced-motion / no-JS we simply show the first — the others remain
-     stacked underneath and don't break the layout. */
+  /* Scene 2: phrases stack at the same left edge so the eye sees a stable
+     starting position as content swaps. Cross-fade happens in place; the
+     accent-colored key word carries the visual emphasis. */
   .hero-scene-2__phrases {
+    /* Reserve vertical room equal to the largest phrase so the surrounding
+       layout doesn't reflow when the absolute children appear. */
     min-height: 8rem;
+  }
+  @media (min-width: 768px) {
+    .hero-scene-2__phrases {
+      min-height: 9rem;
+    }
   }
   .hero-scene-2__phrase {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* left-anchor — share a starting edge */
+    margin: 0;
   }
   .hero-scene-2__phrase[data-phrase-index="0"] {
     opacity: 1;
@@ -169,12 +183,12 @@ const projects = (
   }
 
   /* When the choreography is disabled (reduced-motion or no-JS), reveal all
-     three phrases stacked vertically instead of the cross-fade. */
+     three phrases stacked vertically (left-aligned) instead of the cross-fade. */
   @media (prefers-reduced-motion: reduce) {
     .hero-scene-2__phrases {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.25rem;
       min-height: 0;
     }
     .hero-scene-2__phrase {

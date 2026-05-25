@@ -76,12 +76,14 @@ function setup() {
             anticipatePin: 1,
           },
         });
+        // Left-anchored layout means we don't need large y motion to mask
+        // horizontal jitter — a 6px settle is enough character.
         // 0 → 1
-        tl.to(phrases[0], { opacity: 0, y: -20, duration: 1 }, 0);
-        tl.to(phrases[1], { opacity: 1, y: 0, duration: 1 }, 0);
+        tl.to(phrases[0], { opacity: 0, y: -6, duration: 1 }, 0);
+        tl.fromTo(phrases[1], { y: 6 }, { opacity: 1, y: 0, duration: 1 }, 0);
         // 1 → 2
-        tl.to(phrases[1], { opacity: 0, y: -20, duration: 1 }, 1.5);
-        tl.to(phrases[2], { opacity: 1, y: 0, duration: 1 }, 1.5);
+        tl.to(phrases[1], { opacity: 0, y: -6, duration: 1 }, 1.5);
+        tl.fromTo(phrases[2], { y: 6 }, { opacity: 1, y: 0, duration: 1 }, 1.5);
       }
 
       // ─── Scene 3: stat rise-in ───────────────────────────────────────

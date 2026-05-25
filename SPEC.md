@@ -135,6 +135,17 @@ These survive Phase 2 polish — don't accidentally undo or paper over.
 
 CMS-based content authoring · backend beyond contact form · i18n · analytics · blog search · light mode toggle
 
+## Future-state ideas (post-v1 — not yet ready to scope)
+
+- **Automation + AI implementation assistance / training for small businesses.** Working idea for a service offering. Needs upstream work before it can become a page on the site:
+  - Marketing positioning — who is the customer, what problem are we naming for them
+  - Relationship model — discovery call → diagnostic → engagement, or fixed package?
+  - Pricing — hourly / project / retainer / training-day rates
+  - Expectation framing — what's in scope, deliverables, what the customer owns vs. what I own
+  - When all of the above is workshopped, this becomes a `/services` (or `/work-with-me`) page with: a clear pitch, an explicit scope list, and a CTA into the contact form with a pre-filled subject.
+
+- **Social links across the footer.** Currently the footer is just © + email. Add an inline row of social icons (LinkedIn, GitHub, RSS, and whatever else makes sense — Mastodon? Bluesky?). Keep it muted (text-dim) with the standard hover-to-accent-glow treatment so it doesn't compete with content. Decide which platforms to actually maintain a presence on before wiring — every icon is a low-grade promise that the link goes somewhere active.
+
 ## Side task (not on critical path)
 
 Resume update for AI Analyst role at Meraki — independent of site build.
@@ -361,6 +372,25 @@ I did not apply either palette change — both are visible design decisions and 
 **Likely culprit:** a Hero scene-1 backdrop blob (`80vmin` + `blur-3xl` ≈ 64px halo) extending past viewport edges, combined with no global overflow clip. Other suspects ruled out — the bgfx wrapper has `overflow-hidden`, and no content sections use negative margins beyond their parent's padding.
 
 **Fix:** added `overflow-x: clip` on `html` in `global.css`. Chose `clip` over `hidden` because `clip` doesn't create a scroll container — so the sticky nav and Lenis smooth-scroll continue to work as if it weren't there. (`overflow: hidden` would have caused subtle sticky/scroll-source quirks.)
+
+### Post-PR corrections (after user review)
+
+**README.md** — replaced the default Astro scaffold stub with real project docs: stack table, quick-start, project structure, route list, design system summary, perf/a11y notes, status by phase. Points readers at SPEC.md for the working build log.
+
+**"News and settings" component identified.** What the user saw is the **Astro Dev Toolbar** — a built-in feature of Astro 6 that mounts at the bottom of the page in `npm run dev` only. The icons are:
+- Astro logo → opens a popover with announcements (the "news")
+- Inspector / Audit / Settings → developer-aimed tooling for the dev experience
+It is NOT in our source (grep `Welcome` / `Showcase` / `astro-dev-toolbar` returns nothing), and it does NOT appear in `dist/` production HTML (verified by grep). No action taken — the toolbar is correct, intended behavior and only shows for the developer locally. Can be disabled if it ever bothers anyone with `devToolbar: { enabled: false }` in `astro.config.mjs`.
+
+**Scene 2 redesign — left-anchored with accent key word.** User reported lingering choppiness even after local verification, hypothesizing it was the text not lining up. Confirmed: phrases of different lengths centered on a shared point meant the visible edges shifted ~100px between phrases. Fix per the user's chosen direction:
+- Phrases now left-align (CSS `justify-content: flex-start` on `.hero-scene-2__phrase`) so all three share a stable starting edge.
+- The opening "key" word (`RPA`, `AI`, `Same`) renders in `--color-accent-glow`; the rest in `--color-text`. Carries the visual emphasis without depending on length.
+- Type bumped from `text-5xl md:text-7xl` to `text-6xl md:text-8xl` with `leading-[1]` for more presence.
+- Container `min-height` widened to 9rem at md+ to accommodate the larger size.
+- GSAP entry/exit Y motion dropped from 20px → 6px — large motion was masking horizontal jitter that's now gone, so a subtle settle reads better.
+- Reduced-motion fallback updated to stack the three phrases left-aligned with 1.25rem gap (was 1rem centered).
+
+**Spec tracker — future-state idea added.** SMB automation + AI implementation assistance / training. Logged under a new "Future-state ideas" section, with the open scoping questions (marketing positioning, relationship model, pricing, expectation framing) so it's not forgotten when the user is ready to workshop it.
 
 ## Notes for the next chat session
 
