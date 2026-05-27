@@ -1,0 +1,60 @@
+---
+import BackgroundFXClient from "./BackgroundFXClient";
+---
+
+<div
+  class="bgfx pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+  aria-hidden="true"
+  transition:persist
+>
+  <!-- CSS fallback: two soft accent glows + subtle radial vignette. Always rendered
+       so low-capability clients (mobile, reduced-motion, no JS) still see depth.
+       The WebGL canvas sits on top when enabled. -->
+  <div class="bgfx__css absolute inset-0">
+    <div class="bgfx__glow bgfx__glow--a"></div>
+    <div class="bgfx__glow bgfx__glow--b"></div>
+  </div>
+
+  <div class="bgfx__webgl absolute inset-0">
+    <BackgroundFXClient client:only="react" />
+  </div>
+</div>
+
+<style>
+  .bgfx__glow {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.35;
+  }
+
+  .bgfx__glow--a {
+    top: -10%;
+    left: -10%;
+    width: 50vmax;
+    height: 50vmax;
+    background: radial-gradient(circle, #1e40af 0%, transparent 65%);
+  }
+
+  .bgfx__glow--b {
+    bottom: -20%;
+    right: -10%;
+    width: 55vmax;
+    height: 55vmax;
+    background: radial-gradient(circle, #3b82f6 0%, transparent 65%);
+    opacity: 0.22;
+  }
+
+  /* Subtle vignette to settle the content into the background. */
+  .bgfx__css::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(5, 8, 16, 0.6) 100%
+    );
+    pointer-events: none;
+  }
+</style>

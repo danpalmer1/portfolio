@@ -1,0 +1,89 @@
+---
+import { type GetStaticPaths, type Page } from "astro";
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return paginate(posts, { pageSize: 10 });
+}) satisfies GetStaticPaths;
+
+type Props = { page: Page<CollectionEntry<"posts">> };
+const { page } = Astro.props;
+
+const dateFmt = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<Layout
+  title={page.currentPage > 1 ? `Blog · page ${page.currentPage} — Daniel Palmer` : "Blog — Daniel Palmer"}
+  description="Short notes on automation, AI, and shipping software."
+>
+  <section>
+    <p class="font-mono text-xs uppercase tracking-widest text-(--color-text-dim) mb-4">
+      Writing
+    </p>
+    <h1 class="font-display text-4xl md:text-5xl font-semibold tracking-[-0.03em]">
+      Notes on automation and AI.
+    </h1>
+
+    <ul class="mt-12 divide-y divide-(--color-border) border-y border-(--color-border)">
+      {
+        page.data.map((post) => (
+          <li class="group">
+            <a
+              href={`/blog/${post.id}`}
+              class="block py-6 transition-colors hover:bg-(--color-surface)/40 -mx-6 px-6 rounded"
+            >
+              <time
+                datetime={post.data.date.toISOString()}
+                class="font-mono text-xs uppercase tracking-widest text-(--color-text-dim)"
+              >
+                {dateFmt.format(post.data.date)}
+              </time>
+              <h2 class="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] text-(--color-text) group-hover:text-(--color-accent-glow)">
+                {post.data.title}
+              </h2>
+              <p class="mt-2 text-(--color-text-muted) leading-relaxed max-w-2xl">
+                {post.data.summary}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      (page.url.prev || page.url.next) && (
+        <nav class="mt-12 flex justify-between font-mono text-xs uppercase tracking-widest" aria-label="Pagination">
+          {page.url.prev ? (
+            <a href={page.url.prev} class="text-(--color-text-muted) hover:text-(--color-accent-glow)">
+              ← Newer posts
+            </a>
+          ) : (
+            <span class="text-(--color-text-dim)">← Newer posts</span>
+          )}
+          <span class="text-(--color-text-dim)">
+            Page {page.currentPage} of {page.lastPage}
+          </span>
+          {page.url.next ? (
+            <a href={page.url.next} class="text-(--color-text-muted) hover:text-(--color-accent-glow)">
+              Older posts →
+            </a>
+          ) : (
+            <span class="text-(--color-text-dim)">Older posts →</span>
+          )}
+        </nav>
+      )
+    }
+
+    <p class="mt-12 text-sm text-(--color-text-dim)">
+      Subscribe via <a href="/rss.xml" class="text-(--color-accent-glow) hover:underline">RSS</a>.
+    </p>
+  </section>
+</Layout>

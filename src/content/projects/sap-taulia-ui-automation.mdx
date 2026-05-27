@@ -1,0 +1,60 @@
+---
+title: SAP Taulia UI Automation
+summary: Automated a recurring SAP Taulia data pull for ~20 customers — eliminated 8 hours/week of manual work and recovered ~400 hours/year.
+tech:
+  - UiPath
+  - SAP
+  - Taulia
+  - Python
+order: 1
+---
+
+## The work that wasted everyone's time
+
+Each week, an analyst on our team logged into SAP Taulia, walked through the
+UI for each of ~20 customer accounts, exported a report, and stitched the
+results into a single spreadsheet for downstream reporting. The workflow
+was ~8 hours of mechanical clicking — every single week.
+
+No public API. No batch export. Just a person and a browser.
+
+## What I built
+
+A UiPath bot that drives the SAP Taulia UI the same way a human would, but
+without the human:
+
+```python
+# Sketch of the per-customer loop the bot runs each week.
+# Real implementation is a UiPath workflow, but the logic mirrors this.
+
+for customer in customers:
+    page = sap.navigate("/taulia/customer-detail")
+    page.fill("#customer-id", customer.id)
+    page.click("button[data-action=submit]")
+    page.wait_for("table.results")
+
+    rows = page.scrape_table("table.results")
+    spreadsheet.append_rows(rows, source=customer.id)
+
+spreadsheet.save_as(f"weekly-taulia-{week_iso}.xlsx")
+mail.send(to=analyst, attachments=[spreadsheet.path])
+```
+
+The bot runs unattended on a schedule, opens its own browser session,
+handles login through our SSO, drops the finished spreadsheet in the same
+place the analyst used to put it, and emails the team when it's done.
+
+## Outcome
+
+- **8 hours/week recovered** — the analyst got their morning back
+- **~400 hours/year** across the team
+- **Zero typos** — the bot doesn't fat-finger a customer ID
+- **Same output format** — downstream consumers didn't need to change anything
+
+## What I'd do differently
+
+If I were building this today, I'd reach for an API contract first. SAP
+Taulia has since opened more programmatic surfaces, and any UI-driven bot
+is one DOM redesign away from a maintenance fire drill.
+
+The lesson I took into AI work: **automate the workflow, not the UI**.

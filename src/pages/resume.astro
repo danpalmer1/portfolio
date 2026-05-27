@@ -1,0 +1,259 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Resume — Daniel Palmer"
+  description="Daniel Palmer · Automation engineer turned AI analyst. CIS grad, ex-Fastenal RPA, now at Meraki Private Equity."
+>
+  <article class="resume mx-auto max-w-3xl">
+    <div class="resume__toolbar flex items-center justify-between mb-8">
+      <a
+        href="/about"
+        class="font-mono text-xs uppercase tracking-widest text-(--color-text-dim) hover:text-(--color-accent-glow) transition-colors"
+      >
+        ← About
+      </a>
+      <a
+        href="/daniel-palmer-resume.pdf"
+        class="rounded-md border border-(--color-border) px-4 py-2 text-sm text-(--color-text-muted) transition-all hover:-translate-y-0.5 hover:border-(--color-accent-glow) hover:text-(--color-text)"
+        download
+      >
+        Download PDF
+      </a>
+    </div>
+
+    <header class="resume__header">
+      <h1 class="font-display text-4xl md:text-5xl font-semibold tracking-[-0.03em]">
+        Daniel Palmer
+      </h1>
+      <p class="mt-2 text-(--color-text-muted)">
+        Automation engineer turned AI analyst — Shoreview, MN
+      </p>
+      <ul class="resume__contact mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm text-(--color-text-muted)">
+        <li>
+          <a href="mailto:xdanielpalmerx@gmail.com" class="hover:text-(--color-accent-glow)">
+            xdanielpalmerx@gmail.com
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://linkedin.com/in/dan-fpalmer"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-(--color-accent-glow)"
+          >
+            linkedin.com/in/dan-fpalmer
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://danpalmer.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-(--color-accent-glow)"
+          >
+            danpalmer.dev
+          </a>
+        </li>
+      </ul>
+    </header>
+
+    <section class="resume__section">
+      <h2>Summary</h2>
+      <p>
+        Three years building rules-based RPA at Fastenal, now applying the
+        same operational rigor to AI-augmented workflows at Meraki Private
+        Equity. I focus on the boring part of automation: durable side
+        effects, audit trails, and the long tail of edge cases.
+      </p>
+    </section>
+
+    <section class="resume__section">
+      <h2>Experience</h2>
+
+      <article class="resume__role">
+        <header class="resume__role-header">
+          <h3>AI Analyst — Meraki Private Equity</h3>
+          <span class="resume__role-meta">April 2026 – Present · Remote</span>
+        </header>
+        <p class="resume__role-blurb">
+          Embedding Claude into Gradient Financial Group workflows. Owning
+          design and rollout of AI-augmented analyst tooling.
+        </p>
+      </article>
+
+      <article class="resume__role">
+        <header class="resume__role-header">
+          <h3>RPA Developer — Fastenal</h3>
+          <span class="resume__role-meta">January 2023 – April 2026 · Winona, MN</span>
+        </header>
+        <ul class="resume__bullets">
+          <li>
+            Shipped 100+ production automations on a 7-person team — collectively
+            saved $30M+ across the org.
+          </li>
+          <li>
+            Built and owned the SAP Taulia UI automation that eliminated an 8-hour-per-week
+            recurring task across ~20 customer accounts (~400 hours/year).
+          </li>
+          <li>
+            Wrote and reviewed UiPath, Python, and C# workflow code. Pushed for
+            durable logging and reproducible side effects across the team's library.
+          </li>
+          <li>
+            Mentored two new hires through their first quarter of bot ownership.
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="resume__section">
+      <h2>Selected projects</h2>
+      <ul class="resume__bullets">
+        <li>
+          <strong><a href="/work/sap-taulia-ui-automation">SAP Taulia UI Automation</a></strong>
+          — production RPA at Fastenal; eliminated 400 hours/year of manual data pulls.
+        </li>
+        <li>
+          <strong><a href="https://studywheel.app" target="_blank" rel="noopener noreferrer">Bible Study Wheel</a></strong>
+          — public app with real users; React + TypeScript + Supabase + Tailwind v4.
+        </li>
+      </ul>
+    </section>
+
+    <section class="resume__section">
+      <h2>Education</h2>
+      <article class="resume__role">
+        <header class="resume__role-header">
+          <h3>B.S. Computer Information Systems — Winona State University</h3>
+          <span class="resume__role-meta">Graduated December 2023</span>
+        </header>
+      </article>
+    </section>
+
+    <section class="resume__section">
+      <h2>Skills</h2>
+      <ul class="resume__skills">
+        <li><strong>Automation:</strong> UiPath, Python automation, SAP scripting, web/UI automation</li>
+        <li><strong>AI:</strong> Claude API, prompt design, agentic workflows, evaluation harnesses</li>
+        <li><strong>Web:</strong> TypeScript, React, Astro, Tailwind, Supabase, Node</li>
+        <li><strong>Discipline:</strong> reproducible side effects, audit logging, observability, code review</li>
+      </ul>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  /* Screen styling — uses the same tokens as the rest of the site. */
+  .resume__section {
+    margin-top: 3rem;
+  }
+  .resume__section h2 {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-text-dim);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .resume__role + .resume__role {
+    margin-top: 1.75rem;
+  }
+  .resume__role-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .resume__role-header h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+  .resume__role-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-dim);
+  }
+  .resume__role-blurb,
+  .resume__section > p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+  .resume__bullets {
+    list-style: disc;
+    padding-left: 1.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+  .resume__bullets li + li {
+    margin-top: 0.5rem;
+  }
+  .resume__bullets strong {
+    color: var(--color-text);
+  }
+  .resume__skills {
+    color: var(--color-text-muted);
+    line-height: 1.8;
+  }
+  .resume__skills li + li {
+    margin-top: 0.5rem;
+  }
+  .resume__skills strong {
+    color: var(--color-text);
+    margin-right: 0.5rem;
+  }
+
+  /* Print stylesheet — strip the chrome, force light contrast, keep type rhythm. */
+  @media print {
+    @page {
+      margin: 0.6in;
+    }
+    :global(html),
+    :global(body) {
+      background: #ffffff !important;
+      color: #111111 !important;
+    }
+    :global(header[role="banner"]),
+    :global(nav[aria-label="Primary"]),
+    :global(.bgfx),
+    :global(footer),
+    .resume__toolbar {
+      display: none !important;
+    }
+    .resume {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .resume h1,
+    .resume h2,
+    .resume h3,
+    .resume strong {
+      color: #000 !important;
+    }
+    .resume__section h2 {
+      color: #555 !important;
+      border-bottom-color: #999 !important;
+    }
+    .resume__role-meta,
+    .resume__contact,
+    .resume__role-blurb,
+    .resume__bullets,
+    .resume__skills,
+    .resume__section > p {
+      color: #222 !important;
+    }
+    .resume a {
+      color: #000 !important;
+      text-decoration: none !important;
+    }
+  }
+</style>
